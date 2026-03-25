@@ -1,0 +1,131 @@
+/* =========================================
+   A. Variables de Diseño y General
+========================================== */
+:root {
+    --primary-color: #0d6efd; /* Azul Quirúrgico Bootstrap */
+    --accent-color: #198754;  /* Verde Menta Higiene */
+    --text-muted: #6c757d;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    overflow-x: hidden; /* Previene scroll horizontal */
+}
+
+/* Compensar altura del nav sticky para el scroll */
+.scroll-section {
+    scroll-margin-top: 80px; 
+}
+
+.decoration-none {
+    text-decoration: none;
+}
+
+/* Títulos de Sección Estilizados */
+.section-title {
+    font-weight: 800;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 4px;
+    background-color: var(--accent-color);
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
+
+/* Título alineado a la izquierda en certificados */
+.text-start.section-title::after {
+    left: 0;
+    transform: translateX(0);
+}
+
+/* =========================================
+   B. Navegación Custom
+========================================== */
+.container-nav-custom {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo-img {
+    height: 60px; /* Ajusta la altura de tu logo aquí */
+    width: auto;
+}
+
+.nav-link-custom {
+    font-weight: 600;
+    color: #333 !important;
+    padding: 10px 20px !important;
+    transition: color 0.3s ease;
+}
+
+.nav-link-custom:hover {
+    color: var(--primary-color) !important;
+}
+
+/* Estilo para el botón activo por scrollspy */
+.navbar-light .navbar-nav .nav-link.active {
+    color: var(--primary-color) !important;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+/* =========================================
+   C. Sección Hero
+========================================== */
+.hero-section {
+    height: 100vh; /* Altura completa de pantalla */
+    /* Reemplazar con URL de tu foto real de manipulación de alimentos */
+    background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), 
+                      url('https://via.placeholder.com/1920x1080?text=FOTO+HERO+MANIPULACION+ALIMENTOS');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Efecto Parallax simple */
+}
+
+/* =========================================
+   D. Tarjetas de Productos
+========================================== */
+.img-product {
+    height: 250px;
+    object-fit: cover; /* Recorta la imagen para que encaje sin deformarse */
+    transition: transform 0.5s ease;
+}
+
+.card:hover .img-product {
+    transform: scale(1.05); /* Zoom suave al hover */
+}
+
+/* =========================================
+   E. Animaciones (Estados Iniciales)
+========================================== */
+/* Fade In para el Hero al cargar */
+.fade-in {
+    opacity: 0;
+    animation: fadeInAnimation 1.5s ease forward;
+}
+
+@keyframes fadeInAnimation {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tarjetas/Elementos que aparecen al hacer scroll (ocultos por defecto) */
+.card-animate {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* Clase que aplicará JS al detectar el scroll */
+.card-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
