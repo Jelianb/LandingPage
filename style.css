@@ -134,7 +134,7 @@ body {
 }
 
 /* =========================================
-   F. Slider Infinito de Imágenes
+   F. Slider Infinito de Imágenes (Optimizado)
 ========================================== */
 .slider-container {
     width: 100%;
@@ -142,15 +142,19 @@ body {
     position: relative;
     background: white;
     padding: 20px 0;
+    /* Evita parpadeos en algunos navegadores al usar aceleración 3D */
+    backface-visibility: hidden; 
 }
 
 .slider-track {
     display: flex;
-    width: calc(250px * 12); /* Ancho de cada slide * total de slides (6 orig + 6 copias) */
+    width: calc(250px * 12);
+    /* 1. Advierte al navegador para que prepare la GPU */
+    will-change: transform;
+    /* 2. Aquí puedes bajar de 30s a 20s si quieres que se mueva más rápido */
     animation: scroll-left 30s linear infinite;
 }
 
-/* Pausar al pasar el mouse (Buena práctica de UX) */
 .slider-track:hover {
     animation-play-state: paused;
 }
@@ -164,9 +168,13 @@ body {
 
 .slide img {
     height: 50px;
-    filter: grayscale(100%); /* Efecto profesional */
+    filter: grayscale(100%);
     opacity: 0.6;
-    transition: 0.3s;
+    /* Optimización extra para que el hover también sea fluido */
+    will-change: filter, opacity;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+    /* Evita que la imagen se vea borrosa al usar GPU */
+    transform: translateZ(0); 
 }
 
 .slide img:hover {
@@ -174,13 +182,13 @@ body {
     opacity: 1;
 }
 
-/* Animación de desplazamiento */
+/* Animación de desplazamiento con Aceleración por Hardware */
 @keyframes scroll-left {
     0% {
-        transform: translateX(0);
+        /* Usar translate3d fuerza el uso de la tarjeta gráfica */
+        transform: translate3d(0, 0, 0);
     }
     100% {
-        /* Se desplaza exactamente la mitad del ancho total del track */
-        transform: translateX(calc(-250px * 6)); 
+        transform: translate3d(calc(-250px * 6), 0, 0); 
     }
 }
