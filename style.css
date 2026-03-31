@@ -50,13 +50,14 @@ body {
 /* =========================================
    B. Navegación Custom
 ========================================== */
+/* Clases restauradas para el contenedor y el logo */
 .container-nav-custom {
     max-width: 1400px;
     margin: 0 auto;
 }
 
 .logo-img {
-    height: 60px; /* Ajusta la altura de tu logo aquí */
+    height: 60px;
     width: auto;
 }
 
@@ -64,17 +65,18 @@ body {
     font-weight: 600;
     color: #333 !important;
     padding: 10px 20px !important;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease-in-out; /* Transición suave para entrar y salir */
+    border-bottom: 2px solid transparent; /* Reserva el espacio para el borde */
 }
 
 .nav-link-custom:hover {
     color: var(--primary-color) !important;
 }
 
-/* Estilo para el botón activo por scrollspy */
+/* Estilo para Scrollspy (Estado Activo) */
 .navbar-light .navbar-nav .nav-link.active {
     color: var(--primary-color) !important;
-    border-bottom: 2px solid var(--primary-color);
+    border-bottom: 2px solid var(--primary-color) !important;
 }
 
 /* =========================================
@@ -104,7 +106,7 @@ body {
 }
 
 /* =========================================
-   E. Animaciones (Estados Iniciales)
+   E. Animaciones
 ========================================== */
 /* Fade In para el Hero al cargar */
 .fade-in {
@@ -117,15 +119,68 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Tarjetas/Elementos que aparecen al hacer scroll (ocultos por defecto) */
+/* Tarjetas/Elementos que aparecen al hacer scroll unificado */
 .card-animate {
     opacity: 0;
-    transform: translateY(40px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    will-change: transform, opacity; /* Ayuda al navegador a renderizar mejor */
 }
 
 /* Clase que aplicará JS al detectar el scroll */
 .card-animate.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* =========================================
+   F. Slider Infinito de Imágenes
+========================================== */
+.slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background: white;
+    padding: 20px 0;
+}
+
+.slider-track {
+    display: flex;
+    width: calc(250px * 12); /* Ancho de cada slide * total de slides (6 orig + 6 copias) */
+    animation: scroll-left 30s linear infinite;
+}
+
+/* Pausar al pasar el mouse (Buena práctica de UX) */
+.slider-track:hover {
+    animation-play-state: paused;
+}
+
+.slide {
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slide img {
+    height: 50px;
+    filter: grayscale(100%); /* Efecto profesional */
+    opacity: 0.6;
+    transition: 0.3s;
+}
+
+.slide img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+}
+
+/* Animación de desplazamiento */
+@keyframes scroll-left {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        /* Se desplaza exactamente la mitad del ancho total del track */
+        transform: translateX(calc(-250px * 6)); 
+    }
 }
